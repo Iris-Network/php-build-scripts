@@ -43,6 +43,7 @@ set PHP_VANILLAGENERATOR_VER=2.1.7
 set PHP_LIBKAFKA_VER=6.0.3
 set PHP_ZSTD_VER=0.12.3
 SET PHP_GRPC_VER=1.57.3
+SET PHP_MONGODB_VER=1.17.2
 
 set script_path=%~dp0
 set log_file=%script_path%compile.log
@@ -338,6 +339,7 @@ call :get-extension-zip-from-github "encoding"              "%PHP_ENCODING_VER%"
 call :get-extension-zip-from-github "rdkafka"               "%PHP_LIBKAFKA_VER%"             "arnaud-lb" "php-rdkafka"             || exit 1
 call :get-extension-zip-from-github "zstd"                  "%PHP_ZSTD_VER%"             "kjdev"     "php-ext-zstd"                || exit 1
 call :get-extension-zip-from-github "grpc"                  "%PHP_GRPC_VER%"            "larryTheCoder"  "php-grpc"                || exit 1
+call :get-extension-zip-from-github "mongodb"               "%PHP_MONGODB_VER%"            "mongodb"  "mongo-php-driver"           || exit 1
 
 call :pm-echo " - crypto: downloading %PHP_CRYPTO_VER%..."
 git clone https://github.com/bukka/php-crypto.git crypto >>"%log_file%" 2>&1 || exit 1
@@ -383,6 +385,7 @@ call configure^
  --enable-opcache-jit=%PHP_JIT_ENABLE_ARG%^
  --enable-phar^
  --enable-vanillagenerator=shared^
+ --enable-mongodb^
  --enable-zstd^
  --enable-grpc=shared^
  --enable-protobuf=shared^
@@ -477,6 +480,7 @@ if "%PM_VERSION_MAJOR%" geq "5" (
 (echo extension=php_fileinfo.dll)>>"%php_ini%"
 (echo extension=php_gd.dll)>>"%php_ini%"
 (echo extension=php_grpc.dll)>>"%php_ini%"
+(echo extension=php_mongodb.dll)>>"%php_ini%"
 (echo extension=php_protobuf.dll)>>"%php_ini%"
 (echo extension=php_vanillagenerator.dll)>>"%php_ini%"
 (echo extension=php_rdkafka.dll)>>"%php_ini%"

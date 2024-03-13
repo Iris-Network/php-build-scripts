@@ -35,6 +35,7 @@ EXT_RDKAFKA_VERSION="6.0.3"
 EXT_ZSTD_VERSION="0.12.3"
 EXT_GRPC_VERSION="1.57.3"
 EXT_VANILLAGENERATOR_VERSION="abd059fd2ca79888aab3b9c5070d83ceea55fada"
+EXT_MONGODB_VERSION="1.17.2"
 
 function write_out {
 	echo "[$1] $2"
@@ -1343,6 +1344,8 @@ get_github_extension "rdkafka" "$EXT_RDKAFKA_VERSION" "arnaud-lb" "php-rdkafka"
 
 get_github_extension "zstd" "$EXT_ZSTD_VERSION" "kjdev" "php-ext-zstd"
 
+get_github_extension "mongodb" "$EXT_MONGODB_VERSION" "mongodb" "mongo-php-driver"
+
 if [ "$(uname -s)" == "Darwin" ]; then
 	echo "[rdkafka] Implementing quick patch for MacOS support."
 
@@ -1555,6 +1558,7 @@ $HAVE_MYSQLI \
 --enable-cli \
 --enable-ftp \
 --enable-grpc="$INSTALL_DIR" \
+--enable-mongodb \
 --enable-protobuf \
 --enable-zstd \
 --enable-vanillagenerator \
