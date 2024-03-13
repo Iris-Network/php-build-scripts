@@ -35,7 +35,7 @@ EXT_RDKAFKA_VERSION="6.0.3"
 EXT_ZSTD_VERSION="0.12.3"
 EXT_GRPC_VERSION="1.57.3"
 EXT_VANILLAGENERATOR_VERSION="abd059fd2ca79888aab3b9c5070d83ceea55fada"
-EXT_MONGODB_VERSION="1.17.2"
+EXT_MONGODB_VERSION="1.17.2-custom"
 
 function write_out {
 	echo "[$1] $2"
@@ -1344,7 +1344,7 @@ get_github_extension "rdkafka" "$EXT_RDKAFKA_VERSION" "arnaud-lb" "php-rdkafka"
 
 get_github_extension "zstd" "$EXT_ZSTD_VERSION" "kjdev" "php-ext-zstd"
 
-get_github_extension "mongodb" "$EXT_MONGODB_VERSION" "mongodb" "mongo-php-driver"
+get_github_extension "mongodb" "$EXT_MONGODB_VERSION" "Iris-Network" "mongo-php-driver"
 
 if [ "$(uname -s)" == "Darwin" ]; then
 	echo "[rdkafka] Implementing quick patch for MacOS support."
@@ -1507,7 +1507,6 @@ fi
 
 RANLIB=$RANLIB CFLAGS="$CFLAGS $FLAGS_LTO" CXXFLAGS="$CXXFLAGS $FLAGS_LTO" LDFLAGS="$LDFLAGS $FLAGS_LTO" ./configure $PHP_OPTIMIZATION --prefix="$INSTALL_DIR" \
 --exec-prefix="$INSTALL_DIR" \
---with-php-config="$INSTALL_DIR/bin/php-config" \
 --with-curl \
 --with-zlib \
 --with-zlib \
