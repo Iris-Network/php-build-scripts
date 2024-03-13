@@ -385,7 +385,7 @@ call configure^
  --enable-opcache-jit=%PHP_JIT_ENABLE_ARG%^
  --enable-phar^
  --enable-vanillagenerator=shared^
- --enable-mongodb^
+ --enable-mongodb=shared^
  --enable-zstd^
  --enable-grpc=shared^
  --enable-protobuf=shared^
