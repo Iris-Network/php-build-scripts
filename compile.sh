@@ -17,6 +17,7 @@ LIBRDKAFKA_VER="2.1.1"
 LIBZSTD_VER="1.5.5"
 LIBGRPC_VER="1.58.1"
 SASL2_VERSION="2.1.28"
+LIBMONGOC_VERSION="1.26.1"
 
 EXT_PMMPTHREAD_VERSION="6.0.12"
 EXT_YAML_VERSION="2.2.3"
@@ -1240,6 +1241,37 @@ function build_libdeflate {
 	fi
 }
 
+function build_libmongoc {
+	write_library libmongoc "$LIBMONGOC_VERSION"
+	local libmongoc_dir="./libmongoc-$LIBMONGOC_VERSION"
+	if cant_use_cache "$libmongoc_dir"; then
+		rm -rf "$libmongoc_dir"
+		write_download
+		download_github_src "mongodb/mongo-c-driver" "$LIBMONGOC_VERSION" "libmongoc" | tar -zx >> "$DIR/install.log" 2>&1
+		mv mongo-c-driver-$LIBMONGOC_VERSION "$libmongoc_dir"
+
+		write_configure
+		cd "$libmongoc_dir"
+		cmake . \
+		-D ENABLE_EXTRA_ALIGNMENT=OFF \
+		-D ENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF \
+		-D BUILD_VERSION="$LIBMONGOC_VERSION" \
+		-D CMAKE_PREFIX_PATH="$INSTALL_DIR" \
+		-D CMAKE_INSTALL_PREFIX="$INSTALL_DIR" \
+		-D CMAKE_INSTALL_LIBDIR=lib >> "$DIR/install.log" 2>&1
+
+		write_compile
+		make -j $THREADS >> "$DIR/install.log" 2>&1 && mark_cache
+	else
+		write_caching
+		cd "$libmongoc_dir"
+	fi
+	write_install
+	make install >> "$DIR/install.log" 2>&1
+	cd ..
+	write_done
+}
+
 cd "$LIB_BUILD_DIR"
 
 build_zlib
@@ -1272,6 +1304,7 @@ build_libxml2
 build_libzip
 build_sqlite3
 build_libdeflate
+build_libmongoc
 
 # PECL libraries
 
